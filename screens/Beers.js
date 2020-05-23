@@ -1,13 +1,71 @@
-import React from 'react';
-import { View, Text } from 'react-native';
+import React, { useState, useCallback, useEffect } from 'react';
+import { View, Text, FlatList, Image, StyleSheet } from 'react-native';
+import axios from 'axios';
 
 
 const Beers = () => {
+  const [listOfBeers, setListofBeers] = useState([]);
+
+  const getAllbeers = useCallback(() =>{
+    axios.get(`https://ih-beers-api2.herokuapp.com/beers`)
+    .then(response => {
+      setListofBeers(response.data)
+    })
+    .catch((err)=>{
+      console.log(err)
+   })
+  },[]);
+
+  useEffect(() => {
+    getAllbeers()
+  }, []);
+
   return (
-    <View>
-      <Text>I am screen Beers</Text>
-    </View>
+    <>
+      <FlatList data={listOfBeers} 
+        keyExtractor={item => item._id}
+        renderItem={({item}) => (
+          <View style={styles.containerBeer}>
+            <Image style={styles.imgBeer} source={{uri: item.image_url}}/>
+            <Text style={styles.titleBeer}>{item.name}</Text>
+            <Text style={styles.taglineBeer}>{item.tagline}</Text>
+            <Text style={styles.contributedBeer}>{item.contributed_by}</Text>
+          </View>
+        )}
+      />
+    </>
   )
 };
+
+const styles = StyleSheet.create({
+  containerBeer: {
+    margin: 20,
+    paddingBottom: 30,
+    justifyContent: 'center',
+    alignItems:'center',
+    borderBottomColor: 'grey',
+    borderBottomWidth: 1,
+  },
+  imgBeer:{
+    height: 200,
+    width: 80,
+    resizeMode: 'contain'
+  },
+  titleBeer: {
+    fontWeight: 'bold',
+    fontSize: 18,
+    marginTop: 20,
+    marginBottom: 10
+  },
+  taglineBeer: {
+    marginHorizontal: 30,
+    marginVertical: 10,
+    fontSize: 14,
+  },
+  contributedBeer: {
+    color: 'grey',
+    fontSize: 12,
+  }
+})
 
 export default Beers;
