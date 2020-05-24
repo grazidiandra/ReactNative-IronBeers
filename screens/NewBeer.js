@@ -39,20 +39,26 @@ const NewBeer = () => {
     }
   };
 
+  
 
   return (
-    <View style={styles.container}>
-      <TextInput value={name} onChangeText={value => setName(value)} style={styles.input} placeholder='name'/> 
-      <TextInput value={tagline} onChangeText={value => setTagline(value)} style={styles.input} placeholder='tagline'/> 
-      <TextInput multiline value={description} onChangeText={value => setDescription(value)} style={styles.input} placeholder='description'/> 
+    <ScrollView contentContainerStyle={styles.container}>
+      <TextInput value={name} onChangeText={value => setName(value)} style={styles.input} placeholder='name' onSubmitEditing={() => tagline.focus()} onSubmitEditing={() => { input_2.focus(); }}/> 
+
+      <TextInput value={tagline} onChangeText={value => setTagline(value)} style={styles.input} placeholder='tagline' ref={(input) => { input_2 = input; }} onSubmitEditing={() => { input_3.focus()}}/> 
+
+      <TextInput  multiline  value={description} onChangeText={value => setDescription(value)} style={styles.input} placeholder='description' ref={(input) => { input_3 = input }}/> 
+
       <TextInput value={firstBrewed} onChangeText={value => setFirstBrewed(value)} style={styles.input} placeholder='first brewed'/> 
+
       <TextInput value={brewersTips} onChangeText={value => setBrewersTips(value)} style={styles.input} placeholder='brewers tips'/> 
+
       <TextInput value={attenuationLevel} onChangeText={value => setAttenuationLevel(value)} keyboardType='numeric' style={styles.input} placeholder='attenuation level'/> 
       <TextInput value={contributedBy} onChangeText={value => setContributedBy(value)} style={styles.input} placeholder='contribuited by'/> 
       <TouchableOpacity onPress={handleForm} style={styles.button}>
         <Text style={styles.buttonText}>Submit a new beer!</Text>
       </TouchableOpacity>
-    </View>
+    </ScrollView>
   )
 };
 
