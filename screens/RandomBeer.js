@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, StyleSheet, Image, ScrollView } from 'react-native';
 import axios from 'axios';
 import Spinner from 'react-native-loading-spinner-overlay';
 
@@ -27,7 +27,7 @@ const RadomBeer = () => {
   );
 
   return (
-    <View style={styles.containerBeer}>
+    <ScrollView contentContainerStyle={styles.containerBeer}>
       <Spinner style={styles.spinner} visible={spinner} textContent={''}/>
       <Image style={styles.imgBeer} source={{uri: randomBeer.image_url}}/>
       <Text style={styles.titleBeer}>{randomBeer.name}</Text>
@@ -38,14 +38,14 @@ const RadomBeer = () => {
         <Text style={styles.beerDetail}><Text style={{fontWeight: 'bold'}}>Description:</Text> {randomBeer.description}</Text>
       </View>
       <Text style={styles.contributedBeer}>{randomBeer.contributed_by}</Text>
-    </View>
+    </ScrollView>
   )
 };
 
 const styles = StyleSheet.create({
   containerBeer: {
     margin: 30,
-    paddingBottom: 30,
+    paddingBottom: 50,
     alignItems:'center',
   },
   imgBeer:{

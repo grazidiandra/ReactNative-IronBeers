@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text, Image, StyleSheet, ScrollView } from 'react-native';
 import axios from 'axios';
 import Spinner from 'react-native-loading-spinner-overlay';
 
 
-const BeerDetail = ({ navigation, route }) => {
+const BeerDetail = ({ route }) => {
   const beerId = route.params.beerId || null;
   const [beerDetail, setbeerDetail] = useState({});
   const [spinner, setSpiner] = useState(true)
@@ -26,7 +26,7 @@ const BeerDetail = ({ navigation, route }) => {
   }, [])
 
   return ( 
-    <View style={styles.containerBeer}>
+    <ScrollView contentContainerStyle={styles.containerBeer}>
       <Spinner style={styles.spinner} visible={spinner} textContent={''}/>
       <Image style={styles.imgBeer} source={{uri: beerDetail.image_url}}/>
       <Text style={styles.titleBeer}>{beerDetail.name}</Text>
@@ -37,7 +37,7 @@ const BeerDetail = ({ navigation, route }) => {
         <Text style={styles.beerDetail}><Text style={{fontWeight: 'bold'}}>Description:</Text> {beerDetail.description}</Text>
       </View>
       <Text style={styles.contributedBeer}>{beerDetail.contributed_by}</Text>
-    </View>  
+    </ScrollView>  
   ) 
 
 };
@@ -45,7 +45,7 @@ const BeerDetail = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   containerBeer: {
     margin: 30,
-    paddingBottom: 30,
+    paddingBottom: 50,
     alignItems:'center',
   },
   imgBeer:{
