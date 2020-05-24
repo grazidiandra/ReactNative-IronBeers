@@ -1,9 +1,10 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { View, Text, FlatList, Image, StyleSheet } from 'react-native';
+import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import axios from 'axios';
 
 
-const Beers = () => {
+
+const Beers = ({ navigation }) => {
   const [listOfBeers, setListofBeers] = useState([]);
 
   const getAllbeers = useCallback(() =>{
@@ -27,7 +28,9 @@ const Beers = () => {
         renderItem={({item}) => (
           <View style={styles.containerBeer}>
             <Image style={styles.imgBeer} source={{uri: item.image_url}}/>
-            <Text style={styles.titleBeer}>{item.name}</Text>
+            <TouchableOpacity onPress={() => navigation.navigate('BeerDetail', {beerId: item._id})}>
+              <Text style={styles.titleBeer}>{item.name}</Text>
+            </TouchableOpacity>
             <Text style={styles.taglineBeer}>{item.tagline}</Text>
             <Text style={styles.contributedBeer}>{item.contributed_by}</Text>
           </View>
@@ -66,6 +69,6 @@ const styles = StyleSheet.create({
     color: 'grey',
     fontSize: 12,
   }
-})
+});
 
 export default Beers;
