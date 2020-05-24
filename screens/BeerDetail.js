@@ -1,17 +1,19 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, FlatList, Image, StyleSheet } from 'react-native';
+import { View, Text, Image, StyleSheet } from 'react-native';
 import axios from 'axios';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 
 const BeerDetail = ({ navigation, route }) => {
   const beerId = route.params.beerId || null;
   const [beerDetail, setbeerDetail] = useState({});
+  const [spinner, setSpiner] = useState(true)
 
   const getBeer = useCallback(() => {
       axios.get(`https://ih-beers-api2.herokuapp.com/beers/${beerId}`)
       .then(response => {
-        console.log(response)
         setbeerDetail(response.data)
+        setSpiner(!spinner)
       })
       .catch(err => {
         console.log(err);
@@ -25,6 +27,7 @@ const BeerDetail = ({ navigation, route }) => {
 
   return ( 
     <View style={styles.containerBeer}>
+      <Spinner style={styles.spinner} visible={spinner} textContent={''}/>
       <Image style={styles.imgBeer} source={{uri: beerDetail.image_url}}/>
       <Text style={styles.titleBeer}>{beerDetail.name}</Text>
       <Text style={styles.taglineBeer}>{beerDetail.tagline}</Text>
@@ -41,7 +44,7 @@ const BeerDetail = ({ navigation, route }) => {
 
 const styles = StyleSheet.create({
   containerBeer: {
-    margin: 20,
+    margin: 30,
     paddingBottom: 30,
     alignItems:'center',
   },
@@ -57,7 +60,7 @@ const styles = StyleSheet.create({
     marginBottom: 10
   },
   taglineBeer: {
-    marginHorizontal: 30,
+    marginHorizontal: 40,
     marginVertical: 10,
     fontSize: 14,
     fontStyle: 'italic'
@@ -73,7 +76,10 @@ const styles = StyleSheet.create({
   beerDetail: {
     fontSize: 14,
     marginVertical: 5,
-  }
+  },
+  spinner:{
+    color: 'white'
+  },
 });
 
 export default BeerDetail;

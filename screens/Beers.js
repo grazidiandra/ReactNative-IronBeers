@@ -1,16 +1,19 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import axios from 'axios';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 
 
 const Beers = ({ navigation }) => {
   const [listOfBeers, setListofBeers] = useState([]);
+  const [spinner, setSpiner] = useState(true)
 
   const getAllbeers = useCallback(() =>{
     axios.get(`https://ih-beers-api2.herokuapp.com/beers`)
     .then(response => {
-      setListofBeers(response.data)
+      setListofBeers(response.data);
+      setSpiner(!spinner);
     })
     .catch((err)=>{
       console.log(err)
@@ -23,6 +26,7 @@ const Beers = ({ navigation }) => {
 
   return (
     <>
+      <Spinner style={styles.spinner} visible={spinner} textContent={''}/>
       <FlatList data={listOfBeers} 
         keyExtractor={item => item._id}
         renderItem={({item}) => (
